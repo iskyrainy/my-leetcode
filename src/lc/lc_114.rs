@@ -2,34 +2,25 @@ use std::{cell::RefCell, rc::Rc};
 
 use crate::lc::TreeNode;
 
+/// only consider the check-node's left not None
 pub fn flatten(root: &mut Option<Rc<RefCell<TreeNode>>>) {
     let mut check = root.clone();
-    while let Some(node) = check.clone() {
-        let right = node.borrow().right.clone();
-        if right.is_none() {
-            check = node.borrow().left.clone();
-            continue;
-        }
-        let left = node.borrow().left.clone();
-        if left.is_none() {
-            node.borrow_mut().left = right;
-            check = node.borrow().left.clone();
-            continue;
-        }
-        let mut no_right = left.clone();
-        loop {
-            if no_right.clone().unwrap().borrow().right.is_none() {
-                break;
+    while let Some(node) = check {
+        let mut node_borrow = node.borrow_mut();
+        if let Some(left) = node_borrow.left.take() {
+            let mut pre = left.clone();
+            loop {
+                let nrr = pre.borrow().right.clone();
+                if let Some(r) = nrr {
+                    pre = r;
+                } else {
+                    break;
+                }
             }
-            no_right = node.borrow().right.clone();
+            pre.borrow_mut().right = node_borrow.right.take();
+            node_borrow.right = Some(left);
         }
-        no_right.unwrap().borrow_mut().right = right;
-        check = node.borrow().left.clone();
-    }
-    let root = root.clone().unwrap();
-    {
-        let mut root = root.borrow_mut();
-        root.right = root.left.clone();
+        check = node_borrow.right.clone();
     }
 }
 
