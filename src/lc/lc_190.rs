@@ -16,4 +16,3 @@ mod tests {
         assert_eq!(1073741822, reverse_bits(2147483644));
     }
 }
-

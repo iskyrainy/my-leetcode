@@ -9,16 +9,20 @@
 pub fn coin_change(coins: Vec<i32>, amount: i32) -> i32 {
     let mut dp = vec![amount + 1; (amount as usize) + 1];
     dp[0] = 0;
-    
+
     for &c in coins.iter() {
-        if c > amount || c < 0 { continue; }
+        if c > amount || c < 0 {
+            continue;
+        }
         let c: usize = c as usize;
         for j in c..=amount as usize {
             dp[j] = std::cmp::min(dp[j], dp[j - c] + 1);
         }
     }
-    
-    if dp[amount as usize] > amount { return -1; }
+
+    if dp[amount as usize] > amount {
+        return -1;
+    }
     dp[amount as usize]
 }
 
@@ -38,6 +42,6 @@ mod tests {
 
     #[test]
     fn test_coin_change_3() {
-        assert_eq!(2, coin_change(vec![1,2,5], 10));
+        assert_eq!(2, coin_change(vec![1, 2, 5], 10));
     }
 }

@@ -16,8 +16,16 @@ pub struct LRUCache {
 impl LRUCache {
     pub fn new(capacity: i32) -> Self {
         let cap = capacity as usize;
-        let mut nodes = vec![Node { key: 0, val: 0, prev: 0, next: 0 }; cap + 2];
-        
+        let mut nodes = vec![
+            Node {
+                key: 0,
+                val: 0,
+                prev: 0,
+                next: 0
+            };
+            cap + 2
+        ];
+
         nodes[0].next = 1;
         nodes[1].prev = 0;
 
@@ -71,10 +79,10 @@ impl LRUCache {
     #[inline(always)]
     fn attach_to_head(&mut self, idx: usize) {
         let old_head_next = self.nodes[0].next;
-        
+
         self.nodes[idx].next = old_head_next;
         self.nodes[idx].prev = 0;
-        
+
         self.nodes[0].next = idx;
         self.nodes[old_head_next].prev = idx;
     }
