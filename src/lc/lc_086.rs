@@ -11,7 +11,7 @@ impl ListNode {
     }
 }
 
-pub fn partition(head: Option<Box<ListNode>>, x: i32) -> Option<Box<ListNode>> {
+pub fn partition(mut head: Option<Box<ListNode>>, x: i32) -> Option<Box<ListNode>> {
     todo!();
 }
 
