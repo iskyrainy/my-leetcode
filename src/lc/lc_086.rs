@@ -1,15 +1,4 @@
-#[derive(PartialEq, Eq, Clone, Debug)]
-pub struct ListNode {
-    pub val: i32,
-    pub next: Option<Box<ListNode>>,
-}
-
-impl ListNode {
-    #[inline]
-    fn new(val: i32) -> Self {
-        ListNode { next: None, val }
-    }
-}
+use crate::lc::ListNode;
 
 pub fn partition(mut head: Option<Box<ListNode>>, x: i32) -> Option<Box<ListNode>> {
     let (mut less, mut more) = (vec![], vec![]);
@@ -33,31 +22,12 @@ pub fn partition(mut head: Option<Box<ListNode>>, x: i32) -> Option<Box<ListNode
 
 #[cfg(test)]
 mod tests {
-    use crate::lc::lc_086::{partition, ListNode};
+    use crate::lc::{lc_086::partition, to_list, to_vec};
 
     #[test]
     fn test_partition_1() {
-        let node5 = Box::new(ListNode::new(5));
-        let mut node4 = Box::new(ListNode::new(4));
-        let mut node3 = Box::new(ListNode::new(3));
-        let mut node2 = Box::new(ListNode::new(2));
-        let mut node1 = Box::new(ListNode::new(1));
-        node2.next = Some(node5);
-        node3.next = Some(node2);
-        node4.next = Some(node3);
-        node1.next = Some(node4);
-        let head = Some(node1);
-        // 1, 4, 3, 2, 5
-
-        let mut head = partition(head, 3);
-
-        let mut ordered: Vec<i32> = vec![];
-        while let Some(node) = head {
-            ordered.push(node.val);
-            head = node.next;
-        }
-
-        // 1, 2, 4, 3, 5
-        assert_eq!(vec![1, 2, 4, 3, 5], ordered);
+        let head = to_list(vec![1, 4, 3, 2, 5]);
+        let nhead = partition(head, 3);
+        assert_eq!(to_vec(nhead), vec![1, 2, 4, 3, 5]);
     }
 }

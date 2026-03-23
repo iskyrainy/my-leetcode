@@ -3,6 +3,7 @@ use std::{cell::RefCell, rc::Rc};
 pub mod lc_006;
 pub mod lc_014;
 pub mod lc_086;
+pub mod lc_092;
 pub mod lc_114;
 pub mod lc_136;
 pub mod lc_137;
@@ -33,4 +34,38 @@ impl TreeNode {
             right: None,
         }
     }
+}
+
+#[derive(PartialEq, Eq, Clone, Debug)]
+pub struct ListNode {
+    pub val: i32,
+    pub next: Option<Box<ListNode>>,
+}
+
+impl ListNode {
+    #[inline]
+    fn new(val: i32) -> Self {
+        ListNode { next: None, val }
+    }
+}
+
+/// vec to linked list
+pub fn to_list(vector: Vec<i32>) -> Option<Box<ListNode>> {
+    let mut head = None;
+    for &val in vector.iter().rev() {
+        let mut node = ListNode::new(val);
+        node.next = head;
+        head = Some(Box::new(node));
+    }
+    head
+}
+
+/// linked list to vec
+pub fn to_vec(mut head: Option<Box<ListNode>>) -> Vec<i32> {
+    let mut res = Vec::new();
+    while let Some(node) = head {
+        res.push(node.val);
+        head = node.next;
+    }
+    res
 }
