@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 #[derive(Clone, Copy)]
 struct Node {
     key: i32,
@@ -9,7 +11,7 @@ struct Node {
 pub struct LRUCache {
     capacity: usize,
     nodes: Vec<Node>,
-    map: std::collections::HashMap<i32, usize>,
+    map: HashMap<i32, usize>,
     free_nodes: Vec<usize>,
 }
 
@@ -32,7 +34,7 @@ impl LRUCache {
         Self {
             capacity: cap,
             nodes,
-            map: std::collections::HashMap::with_capacity(cap),
+            map: HashMap::with_capacity(cap),
             free_nodes: (2..cap + 2).collect(),
         }
     }
