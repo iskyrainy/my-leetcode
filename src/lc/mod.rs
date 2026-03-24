@@ -2,6 +2,9 @@ use std::{cell::RefCell, rc::Rc};
 
 pub mod lc_006;
 pub mod lc_014;
+pub mod lc_050;
+pub mod lc_066;
+pub mod lc_069;
 pub mod lc_086;
 pub mod lc_092;
 pub mod lc_114;
@@ -10,6 +13,7 @@ pub mod lc_137;
 pub mod lc_139;
 pub mod lc_146;
 pub mod lc_151;
+pub mod lc_172;
 pub mod lc_190;
 pub mod lc_191;
 pub mod lc_198;
