@@ -8,26 +8,26 @@ pub fn rotate_right(head: Option<Box<ListNode>>, k: i32) -> Option<Box<ListNode>
         length += 1;
         cur = node;
     }
+    if length == 0 {
+        return dummy.next;
+    }
     let k = length - k % length;
     if k == 0 || k == length {
         return dummy.next;
     }
     let mut cur = &mut dummy;
-    for _ in 1..k {
+    for _ in 1..=k {
         cur = cur.next.as_mut().unwrap();
     }
-    let mut p = cur.next.take();
-    let mut next_node;
-    let mut prev = None;
-    for _ in k..=length {
-        if let Some(mut tmp) = p {
-            next_node = tmp.next.take();
-            tmp.next = prev;
-            prev = Some(tmp);
-            p = next_node;
-        }
+    let p = cur.next.take();
+    let mut cur = &mut dummy;
+    let next_node = cur.next.take();
+    cur.next = p;
+    while cur.next.is_some() {
+        cur = cur.next.as_mut().unwrap();
     }
-    todo!()
+    cur.next = next_node;
+    dummy.next
 }
 
 #[cfg(test)]
