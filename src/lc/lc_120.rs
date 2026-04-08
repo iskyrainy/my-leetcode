@@ -1,5 +1,19 @@
-pub fn minimum_total(triangle: Vec<Vec<i32>>) -> i32 {
-    todo!()
+pub fn minimum_total(mut triangle: Vec<Vec<i32>>) -> i32 {
+    for (i, line) in triangle.clone().iter().enumerate() {
+        if i == 0 {
+            continue;
+        }
+        for (ii, _) in line.iter().enumerate() {
+            if ii == 0 {
+                triangle[i][ii] += triangle[i - 1][ii];
+            } else if ii == line.len() - 1 {
+                triangle[i][ii] += triangle[i - 1][ii - 1];
+            } else {
+                triangle[i][ii] += std::cmp::min(triangle[i - 1][ii], triangle[i - 1][ii - 1]);
+            }
+        }
+    }
+    *triangle[triangle.len() - 1].iter().min().unwrap()
 }
 
 #[cfg(test)]
