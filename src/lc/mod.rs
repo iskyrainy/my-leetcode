@@ -32,6 +32,7 @@ pub mod lc_283;
 pub mod lc_300;
 pub mod lc_322;
 pub mod lc_383;
+pub mod lc_724;
 
 #[derive(Debug, PartialEq, Eq)]
 pub struct TreeNode {

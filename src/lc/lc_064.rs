@@ -1,5 +1,16 @@
 pub fn min_path_sum(grid: Vec<Vec<i32>>) -> i32 {
-    todo!()
+    let mut dg = grid.clone();
+    let (m, n) = (grid.len(), grid[0].len());
+    for i in 1..n {
+        dg[0][i] += dg[0][i - 1];
+    }
+    for i in 1..m {
+        dg[i][0] += dg[i - 1][0];
+        for ii in 1..n {
+            dg[i][ii] += std::cmp::min(dg[i][ii - 1], dg[i - 1][ii]);
+        }
+    }
+    dg[m - 1][n - 1]
 }
 
 #[cfg(test)]
