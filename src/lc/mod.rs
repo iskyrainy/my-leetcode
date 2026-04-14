@@ -91,3 +91,35 @@ pub fn to_vec(mut head: Option<Box<ListNode>>) -> Vec<i32> {
     }
     res
 }
+
+pub struct Heap<T> {
+    data: Vec<T>,
+}
+
+impl<T> Heap<T> {
+    pub fn new(cap: usize) -> Heap<T> {
+        Heap { data: Vec::with_capacity(cap) }
+    }
+
+    pub fn push(item: T) {
+        todo!()
+    }
+
+    pub fn peek() -> Option<T> {
+        todo!()
+    }
+
+    pub fn pop() -> Option<T> {
+        todo!();
+    }
+
+    fn sift_up(start: usize, end: usize) {
+        todo!();
+    }
+}
+
+impl<T> Default for Heap<T> {
+    fn default() -> Self {
+        Heap::new(0)
+    }
+}
