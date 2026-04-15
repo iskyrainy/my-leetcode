@@ -1,6 +1,6 @@
 pub fn k_smallest_pairs(nums1: Vec<i32>, nums2: Vec<i32>, k: i32) -> Vec<Vec<i32>> {
-    use std::collections::BinaryHeap;
-    let mut heap = BinaryHeap::with_capacity(k as usize);
+    use crate::lc::Heap;
+    let mut heap = Heap::new(k as usize);
     let mut v = Vec::with_capacity(k as usize);
     nums1
         .iter()

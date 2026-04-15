@@ -32,6 +32,7 @@ pub mod lc_205;
 pub mod lc_215;
 pub mod lc_236;
 pub mod lc_283;
+pub mod lc_295;
 pub mod lc_300;
 pub mod lc_322;
 pub mod lc_373;
@@ -92,6 +93,7 @@ pub fn to_vec(mut head: Option<Box<ListNode>>) -> Vec<i32> {
     res
 }
 
+#[derive(Debug)]
 pub struct Heap<T> {
     data: Vec<T>,
 }
@@ -106,7 +108,7 @@ impl<T: Ord> Heap<T> {
     pub fn push(&mut self, item: T) {
         let old_len = self.data.len();
         self.data.push(item);
-        self.sift_up(0, old_len);
+        self.sift_up(old_len);
     }
 
     pub fn peek(&self) -> Option<&T> {
@@ -114,6 +116,9 @@ impl<T: Ord> Heap<T> {
     }
 
     pub fn pop(&mut self) -> Option<T> {
+        if self.data.is_empty() {
+            return None;
+        }
         let last = self.data.len() - 1;
         self.data.swap(0, last);
         let pop = self.data.pop();
@@ -121,21 +126,46 @@ impl<T: Ord> Heap<T> {
         pop
     }
 
-    fn sift_up(&mut self, start: usize, pos: usize) {
-        let mut pos = pos;
+    fn sift_up(&mut self, mut pos: usize) {
+        if pos == 0 {
+            return;
+        }
         let mut parent = (pos - 1) / 2;
-        while parent > start {
+        while pos > 0 {
             if self.data[parent] >= self.data[pos] {
                 break;
             }
             self.data.swap(parent, pos);
+            if parent == 0 {
+                break;
+            }
             pos = parent;
             parent = (pos - 1) / 2;
         }
     }
 
-    fn sift_down(&mut self, pos: usize) {
-        todo!()
+    fn sift_down(&mut self, mut pos: usize) {
+        let len = self.data.len();
+        let mut child = pos * 2 + 2;
+        while child < len {
+            if self.data[child - 1] < self.data[child] {
+                if self.data[child] <= self.data[pos] {
+                    break;
+                }
+                self.data.swap(pos, child);
+                pos = child;
+            } else {
+                if self.data[child - 1] <= self.data[pos] {
+                    break;
+                }
+                self.data.swap(pos, child - 1);
+                pos = child - 1;
+            }
+            child = pos * 2 + 2;
+        }
+        if child - 1 < len && self.data[child - 1] > self.data[pos] {
+            self.data.swap(pos, child - 1);
+        }
     }
 }
 
