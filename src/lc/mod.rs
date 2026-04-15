@@ -96,29 +96,50 @@ pub struct Heap<T> {
     data: Vec<T>,
 }
 
-impl<T> Heap<T> {
+impl<T: Ord> Heap<T> {
     pub fn new(cap: usize) -> Heap<T> {
-        Heap { data: Vec::with_capacity(cap) }
+        Heap {
+            data: Vec::with_capacity(cap),
+        }
     }
 
-    pub fn push(item: T) {
+    pub fn push(&mut self, item: T) {
+        let old_len = self.data.len();
+        self.data.push(item);
+        self.sift_up(0, old_len);
+    }
+
+    pub fn peek(&self) -> Option<&T> {
+        self.data.first()
+    }
+
+    pub fn pop(&mut self) -> Option<T> {
+        let last = self.data.len() - 1;
+        self.data.swap(0, last);
+        let pop = self.data.pop();
+        self.sift_down(0);
+        pop
+    }
+
+    fn sift_up(&mut self, start: usize, pos: usize) {
+        let mut pos = pos;
+        let mut parent = (pos - 1) / 2;
+        while parent > start {
+            if self.data[parent] >= self.data[pos] {
+                break;
+            }
+            self.data.swap(parent, pos);
+            pos = parent;
+            parent = (pos - 1) / 2;
+        }
+    }
+
+    fn sift_down(&mut self, pos: usize) {
         todo!()
-    }
-
-    pub fn peek() -> Option<T> {
-        todo!()
-    }
-
-    pub fn pop() -> Option<T> {
-        todo!();
-    }
-
-    fn sift_up(start: usize, end: usize) {
-        todo!();
     }
 }
 
-impl<T> Default for Heap<T> {
+impl<T: Ord> Default for Heap<T> {
     fn default() -> Self {
         Heap::new(0)
     }
