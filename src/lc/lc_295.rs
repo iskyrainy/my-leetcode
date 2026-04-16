@@ -1,47 +1,43 @@
-use crate::lc::ListNode;
+use std::cmp::Reverse;
 
+use crate::lc::Heap;
+
+#[derive(Debug)]
 struct MedianFinder {
+    min: Heap<i32>,
+    max: Heap<Reverse<i32>>,
     size: usize,
-    head: Option<Box<ListNode>>,
 }
 
 impl MedianFinder {
     fn new() -> Self {
         MedianFinder {
+            min: Heap::new(25001),
+            max: Heap::new(25001),
             size: 0,
-            head: None,
         }
     }
 
     fn add_num(&mut self, num: i32) {
-        let mut curr = &mut self.head;
-        while curr.as_ref().is_some_and(|node| node.val < num) {
-            curr = &mut curr.as_mut().unwrap().next;
+        if self.min.is_empty() || num <= *self.min.peek().unwrap() {
+            self.min.push(num);
+            if self.max.len() + 1 < self.min.len() {
+                self.max.push(Reverse(self.min.pop().unwrap()));
+            }
+        } else {
+            self.max.push(Reverse(num));
+            if self.max.len() > self.min.len() {
+                self.min.push(self.max.pop().unwrap().0);
+            }
         }
-        let old_next = curr.take();
-        *curr = Some(Box::new(ListNode {
-            val: num,
-            next: old_next,
-        }));
-        self.size += 1;
     }
 
     fn find_median(&mut self) -> f64 {
-        let mid = self.size / 2;
-        let mut curr = self.head.as_ref();
-        if self.size % 2 == 1 {
-            for _ in 0..mid {
-                curr = curr.unwrap().next.as_ref();
-            }
-            curr.unwrap().val as f64
-        } else {
-            for _ in 0..mid - 1 {
-                curr = curr.unwrap().next.as_ref();
-            }
-            let v1 = curr.unwrap().val;
-            let v2 = curr.unwrap().next.as_ref().unwrap().val;
-            (v1 + v2) as f64 / 2.0
+        let min_top = *self.min.peek().unwrap();
+        if self.min.len() > self.max.len() {
+            return min_top as _;
         }
+        (min_top + self.max.peek().unwrap().0) as f64 / 2.0
     }
 }
 

@@ -105,6 +105,14 @@ impl<T: Ord> Heap<T> {
         }
     }
 
+    pub fn is_empty(&self) -> bool {
+        self.data.is_empty()
+    }
+
+    pub fn len(&self) -> usize {
+        self.data.len()
+    }
+
     pub fn push(&mut self, item: T) {
         let old_len = self.data.len();
         self.data.push(item);
