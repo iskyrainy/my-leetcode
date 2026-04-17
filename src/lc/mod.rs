@@ -5,6 +5,7 @@ pub mod lc_006;
 pub mod lc_014;
 pub mod lc_019;
 pub mod lc_025;
+pub mod lc_033;
 pub mod lc_035;
 pub mod lc_050;
 pub mod lc_061;
