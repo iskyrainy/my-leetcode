@@ -1,37 +1,23 @@
-use std::{collections::HashMap, sync::LazyLock};
-
-static MAP: LazyLock<HashMap<char, Vec<char>>> = LazyLock::new(|| {
-    let mut m = HashMap::with_capacity(9);
-    m.insert('1', Vec::new());
-    m.insert('2', vec!['a', 'b', 'c']);
-    m.insert('3', vec!['d', 'e', 'f']);
-    m.insert('4', vec!['g', 'h', 'i']);
-    m.insert('5', vec!['j', 'k', 'l']);
-    m.insert('6', vec!['m', 'n', 'o']);
-    m.insert('7', vec!['p', 'q', 'r', 's']);
-    m.insert('8', vec!['t', 'u', 'v']);
-    m.insert('9', vec!['w', 'x', 'y', 'z']);
-    m
-});
-
 pub fn letter_combinations(digits: String) -> Vec<String> {
-    let chs: Vec<char> = digits.chars().collect();
-    let mut res = vec![];
-    for i in 0..chs.len() {
-        let first = MAP.get(&chs[i]).unwrap();
-        chs.iter().skip(i + 1).for_each(|n| {
-            let second = MAP.get(n).unwrap();
-            first.iter().for_each(|f| {
-                second
-                    .iter()
-                    .for_each(|s| res.push(format!("{}{}", *f, *s)))
-            });
-        });
-        if chs.len() == 1 {
-            first.iter().for_each(|c| res.push(String::from(*c)));
+    let n = digits.len();
+    if n == 0 {
+        return vec![];
+    }
+    fn dfs(i: usize, ans: &mut Vec<String>, path: &mut [u8], digits: &[u8], mapping: &[&str]) {
+        if i == digits.len() {
+            ans.push(String::from_utf8(path.to_vec()).unwrap());
+            return;
+        }
+        for c in mapping[(digits[i] - b'0') as usize].bytes() {
+            path[i] = c;
+            dfs(i + 1, ans, path, digits, mapping);
         }
     }
-    res
+    let mapping = vec!["", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"];
+    let mut ans = vec![];
+    let mut path = vec![0; n];
+    dfs(0, &mut ans, &mut path, &digits.as_bytes(), &mapping);
+    ans
 }
 
 #[cfg(test)]
