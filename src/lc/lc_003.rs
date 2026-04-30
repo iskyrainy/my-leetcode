@@ -14,3 +14,18 @@ pub fn length_of_longest_substring(s: String) -> i32 {
     }
     ans as _
 }
+
+#[cfg(test)]
+mod test {
+    use crate::lc::lc_003::length_of_longest_substring;
+
+    #[test]
+    fn test_length_of_longest_substring_1() {
+        assert_eq!(3, length_of_longest_substring(String::from("abcabcbb")));
+    }
+
+    #[test]
+    fn test_length_of_longest_substring_2() {
+        assert_eq!(1, length_of_longest_substring(String::from("bbbbbbb")));
+    }
+}
