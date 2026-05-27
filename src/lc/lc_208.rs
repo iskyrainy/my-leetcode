@@ -1,33 +1,51 @@
-use std::cell::RefCell;
-
-struct Trie {
-    ch: char,
-    flag: bool,
-    sons: Option<Vec<RefCell<Trie>>>,
+#[derive(Debug, Clone)]
+pub struct Trie {
+    pub flag: bool,
+    pub sons: [Option<Box<Trie>>; 26],
 }
 
 impl Trie {
-    fn new() -> Self {
+    pub fn new() -> Self {
         Trie {
-            ch: ' ',
             flag: false,
-            sons: None
+            sons: Default::default(),
         }
     }
 
-    fn insert(&mut self, word: String) {
-        for ch in word.chars() {
-            
+    pub fn insert(&mut self, word: String) {
+        let mut now = self;
+        for ch in word.as_bytes() {
+            let i = (ch - b'a') as usize;
+            if now.sons[i].is_none() {
+                now.sons[i] = Some(Box::new(Trie::new()));
+            }
+            now = now.sons[i].as_mut().unwrap();
         }
-        todo!()
+        now.flag = true;
     }
 
-    fn search(&self, word: String) -> bool {
-        todo!()
+    pub fn search(&self, word: String) -> bool {
+        let mut now = self;
+        for ch in word.as_bytes() {
+            let i = (ch - b'a') as usize;
+            match &now.sons[i] {
+                Some(node) => now = node,
+                None => return false,
+            }
+        }
+        now.flag
     }
 
-    fn starts_with(&self, prefix: String) -> bool {
-        todo!()
+    pub fn starts_with(&self, prefix: String) -> bool {
+        let mut now = self;
+        for ch in prefix.as_bytes() {
+            let i = (ch - b'a') as usize;
+            match &now.sons[i] {
+                Some(node) => now = node,
+                None => return false,
+            }
+        }
+        true
     }
 }
 
@@ -37,7 +55,7 @@ mod test {
 
     #[test]
     fn test_trie_1() {
-        let trie = Trie::new();
+        let mut trie = Trie::new();
         let apple = String::from("apple");
         let app = String::from("app");
         trie.insert(apple.clone());
