@@ -35,20 +35,20 @@ impl WordDictionary {
         match ch {
             b'.' => {
                 for son in &wd.sons {
-                    if let Some(son) = son {
-                        if Self::dfs(&*son, word, index + 1) {
-                            return true;
-                        }
+                    if let Some(son) = son
+                        && Self::dfs(&*son, word, index + 1)
+                    {
+                        return true;
                     }
                 }
             }
             _ => {
                 let i = (ch - b'a') as usize;
                 let son = &wd.sons[i];
-                if let Some(son) = son {
-                    if Self::dfs(&*son, word, index + 1) {
-                        return true;
-                    }
+                if let Some(son) = son
+                    && Self::dfs(&*son, word, index + 1)
+                {
+                    return true;
                 }
             }
         }
