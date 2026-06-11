@@ -61,6 +61,7 @@ pub mod lc_399;
 pub mod lc_452;
 pub mod lc_502;
 pub mod lc_724;
+pub mod lc_735;
 pub mod lc_912;
 
 #[derive(Debug, PartialEq, Eq)]
