@@ -6,20 +6,17 @@ pub fn calc_equation(
     queries: Vec<Vec<String>>,
 ) -> Vec<f64> {
     let mut map = HashMap::with_capacity(40);
-    equations
-        .iter()
-        .flatten()
-        .collect::<HashSet<_>>()
-        .iter()
-        .for_each(|&s| {
-            map.insert(s, vec![]);
-        });
+    let set = equations.iter().flatten().collect::<HashSet<_>>();
+    set.iter().for_each(|&s| {
+        map.insert(s, vec![]);
+    });
     equations.iter().enumerate().for_each(|(i, v)| {
         let ab = map.get_mut(&v[0]).unwrap();
         ab.push((&v[1], values[i]));
         let ba = map.get_mut(&v[1]).unwrap();
         ba.push((&v[0], 1.0 / values[i]));
     });
+    fn dfs() {}
     todo!()
 }
 
