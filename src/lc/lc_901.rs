@@ -4,15 +4,21 @@ pub struct StockSpanner {
 
 impl StockSpanner {
     pub fn new() -> Self {
-        StockSpanner { stocks: vec![] }
+        StockSpanner { stocks: Vec::with_capacity(10000) }
     }
 
     pub fn next(&mut self, price: i32) -> i32 {
         let mut i = 1;
-        if let Some(&peek) = self.stocks.last() {
-            
+        while let Some(&(pi, pv)) = self.stocks.last() {
+            if pv <= price {
+                i += pi;
+                self.stocks.pop();
+            } else {
+                break;
+            }
         }
-        todo!()
+        self.stocks.push((i, price));
+        i
     }
 }
 
