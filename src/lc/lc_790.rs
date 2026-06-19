@@ -1,22 +1,15 @@
 pub fn num_tilings(n: i32) -> i32 {
-    let mut dp = vec![0; 2 * n as usize + 1];
-    dp[2] = 1;
-    if n > 1 {
-        dp[3] = 1;
+    let n = n as usize;
+    let m = 10_usize.pow(9) + 7;
+    let mut dp = vec![vec![0; 4]; n + 1];
+    dp[0][3] = 1;
+    for i in 1..=n {
+        dp[i][0] = dp[i - 1][3];
+        dp[i][1] = (dp[i - 1][0] + dp[i - 1][2]) % m;
+        dp[i][2] = (dp[i - 1][0] + dp[i - 1][1]) % m;
+        dp[i][3] = (dp[i][2] + dp[i - 1][2] + dp[i - 1][3]) % m;
     }
-    // dp[2n] = (dp[2n-6] + dp[2n-2] + dp[2n-3])
-    for i in 0..=2 * n as usize {
-        if i > 6 {
-            dp[i] += dp[i - 6];
-        }
-        if i > 3 {
-            dp[i] += dp[i - 3];
-        }
-        if i > 2 {
-            dp[i] += dp[i - 2];
-        }
-    }
-    dp[2 * n as usize]
+    dp[n][3] as _
 }
 
 #[cfg(test)]
