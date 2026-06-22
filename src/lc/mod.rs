@@ -68,6 +68,7 @@ pub mod lc_649;
 pub mod lc_724;
 pub mod lc_735;
 pub mod lc_739;
+pub mod lc_746;
 pub mod lc_790;
 pub mod lc_901;
 pub mod lc_912;
