@@ -1,6 +1,6 @@
-pub fn game_of_life(board: &mut Vec<Vec<i32>>) {
+pub fn game_of_life(board: &mut [Vec<i32>]) {
     let mut update = vec![];
-    let neighbors = vec![-1, 0, 1];
+    let neighbors = [-1, 0, 1];
     let (m, n) = (board.len(), board[0].len());
     for i in 0..(m as i32) {
         for j in 0..(n as i32) {
@@ -24,7 +24,7 @@ pub fn game_of_life(board: &mut Vec<Vec<i32>>) {
 
             let i = i as usize;
             let j = j as usize;
-            if board[i][j] == 1 && (lives < 2 || lives > 3) {
+            if board[i][j] == 1 && !(2..=3).contains(&lives) {
                 update.push((i, j));
             }
             if board[i][j] == 0 && lives == 3 {

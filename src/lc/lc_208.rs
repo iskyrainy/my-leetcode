@@ -49,6 +49,12 @@ impl Trie {
     }
 }
 
+impl Default for Trie {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 #[cfg(test)]
 mod test {
     use crate::lc::lc_208::Trie;
@@ -59,10 +65,10 @@ mod test {
         let apple = String::from("apple");
         let app = String::from("app");
         trie.insert(apple.clone());
-        assert_eq!(true, trie.search(apple));
-        assert_eq!(false, trie.search(app.clone()));
-        assert_eq!(true, trie.starts_with(app.clone()));
+        assert!(trie.search(apple));
+        assert!(!trie.search(app.clone()));
+        assert!(trie.starts_with(app.clone()));
         trie.insert(app.clone());
-        assert_eq!(true, trie.search(app));
+        assert!(trie.search(app));
     }
 }

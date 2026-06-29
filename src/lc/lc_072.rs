@@ -2,12 +2,12 @@ pub fn min_distance(word1: String, word2: String) -> i32 {
     let mut dp = vec![vec![0; word2.len() + 1]; word1.len() + 1];
     let ch1: Vec<char> = word1.chars().collect();
     let ch2: Vec<char> = word2.chars().collect();
-    for i in 0..=word1.len() {
+    (0..=word1.len()).for_each(|i| {
         dp[i][0] = i;
-    }
-    for i in 0..=word2.len() {
+    });
+    (0..=word2.len()).for_each(|i| {
         dp[0][i] = i;
-    }
+    });
     for i in 1..=word1.len() {
         for j in 1..=word2.len() {
             if ch1[i - 1] == ch2[j - 1] {

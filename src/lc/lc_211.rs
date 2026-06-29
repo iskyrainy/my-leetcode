@@ -36,7 +36,7 @@ impl WordDictionary {
             b'.' => {
                 for son in &wd.sons {
                     if let Some(son) = son
-                        && Self::dfs(&*son, word, index + 1)
+                        && Self::dfs(son, word, index + 1)
                     {
                         return true;
                     }
@@ -46,13 +46,19 @@ impl WordDictionary {
                 let i = (ch - b'a') as usize;
                 let son = &wd.sons[i];
                 if let Some(son) = son
-                    && Self::dfs(&*son, word, index + 1)
+                    && Self::dfs(son, word, index + 1)
                 {
                     return true;
                 }
             }
         }
         false
+    }
+}
+
+impl Default for WordDictionary {
+    fn default() -> Self {
+        Self::new()
     }
 }
 
@@ -66,10 +72,10 @@ mod test {
         wd.add_word(String::from("app"));
         wd.add_word(String::from("apple"));
         wd.add_word(String::from("any"));
-        assert_eq!(true, wd.search(String::from("apple")));
-        assert_eq!(true, wd.search(String::from("app")));
-        assert_eq!(true, wd.search(String::from("any")));
-        assert_eq!(false, wd.search(String::from("bny")));
-        assert_eq!(true, wd.search(String::from(".pp.e")));
+        assert!(wd.search(String::from("apple")));
+        assert!(wd.search(String::from("app")));
+        assert!(wd.search(String::from("any")));
+        assert!(!wd.search(String::from("bny")));
+        assert!(wd.search(String::from(".pp.e")));
     }
 }

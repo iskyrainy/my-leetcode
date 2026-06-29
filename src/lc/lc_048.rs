@@ -1,14 +1,14 @@
-pub fn rotate(matrix: &mut Vec<Vec<i32>>) {
+pub fn rotate(matrix: &mut [Vec<i32>]) {
     let (m, n) = (matrix.len(), matrix[0].len());
     let (mut left, mut right, mut top, mut bottom) = (0_usize, n - 1, 0_usize, m - 1);
     let mut tmp = std::collections::VecDeque::new();
     while left <= right && top <= bottom {
-        for i in left..=right {
+        (left..=right).for_each(|i| {
             tmp.push_back(matrix[top][i]);
-        }
-        for i in top..=bottom {
+        });
+        (top..=bottom).for_each(|i| {
             tmp.push_back(matrix[i][right]);
-        }
+        });
         if left < right && top < bottom {
             for i in (left..=right).rev() {
                 tmp.push_back(matrix[bottom][i]);
@@ -17,9 +17,9 @@ pub fn rotate(matrix: &mut Vec<Vec<i32>>) {
                 tmp.push_back(matrix[i][left]);
             }
         }
-        for i in top..=bottom {
+        (top..=bottom).for_each(|i| {
             matrix[i][right] = tmp.pop_front().unwrap();
-        }
+        });
         if left < right && top < bottom {
             for i in (left..=right).rev() {
                 matrix[bottom][i] = tmp.pop_front().unwrap();
@@ -28,17 +28,13 @@ pub fn rotate(matrix: &mut Vec<Vec<i32>>) {
                 matrix[i][left] = tmp.pop_front().unwrap();
             }
         }
-        for i in left..=right {
+        (left..=right).for_each(|i| {
             matrix[top][i] = tmp.pop_front().unwrap();
-        }
+        });
         left += 1;
-        if right > 0 {
-            right -= 1;
-        }
+        right = right.saturating_sub(1);
         top += 1;
-        if bottom > 0 {
-            bottom -= 1;
-        }
+        bottom = bottom.saturating_sub(1);
     }
 }
 

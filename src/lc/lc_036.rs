@@ -26,8 +26,7 @@ mod test {
 
     #[test]
     fn test_is_valid_sudoku_1() {
-        assert_eq!(
-            true,
+        assert!(
             is_valid_sudoku(vec![
                 vec!['5', '3', '.', '.', '7', '.', '.', '.', '.'],
                 vec!['6', '.', '.', '1', '9', '5', '.', '.', '.'],

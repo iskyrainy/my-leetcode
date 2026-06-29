@@ -1,4 +1,4 @@
-pub fn set_zeroes(matrix: &mut Vec<Vec<i32>>) {
+pub fn set_zeroes(matrix: &mut [Vec<i32>]) {
     let (m, n) = (matrix.len(), matrix[0].len());
     let (mut rows, mut cols) = (vec![false; m], vec![false; n]);
     for i in 0..m {

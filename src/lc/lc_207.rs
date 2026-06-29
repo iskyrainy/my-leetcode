@@ -35,11 +35,11 @@ mod test {
 
     #[test]
     fn test_can_finish_1() {
-        assert_eq!(true, can_finish(2, vec![vec![1, 0]]));
+        assert!(can_finish(2, vec![vec![1, 0]]));
     }
 
     #[test]
     fn test_can_finish_2() {
-        assert_eq!(false, can_finish(2, vec![vec![1, 0], vec![0, 1]]));
+        assert!(!can_finish(2, vec![vec![1, 0], vec![0, 1]]));
     }
 }

@@ -16,7 +16,7 @@ pub fn letter_combinations(digits: String) -> Vec<String> {
     let mapping = vec!["", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"];
     let mut ans = vec![];
     let mut path = vec![0; n];
-    dfs(0, &mut ans, &mut path, &digits.as_bytes(), &mapping);
+    dfs(0, &mut ans, &mut path, digits.as_bytes(), &mapping);
     ans
 }
 

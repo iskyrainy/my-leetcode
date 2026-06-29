@@ -3,12 +3,12 @@ pub fn spiral_order(matrix: Vec<Vec<i32>>) -> Vec<i32> {
     let (m, n) = (matrix.len(), matrix[0].len());
     let (mut left, mut right, mut top, mut bottom) = (0_usize, n - 1, 0_usize, m - 1);
     while left <= right && top <= bottom {
-        for i in left..=right {
+        (left..=right).for_each(|i| {
             res.push(matrix[top][i]);
-        }
-        for i in (top + 1)..=bottom {
+        });
+        ((top + 1)..=bottom).for_each(|i| {
             res.push(matrix[i][right]);
-        }
+        });
         if left < right && top < bottom {
             for i in ((left + 1)..right).rev() {
                 res.push(matrix[bottom][i]);
@@ -18,13 +18,9 @@ pub fn spiral_order(matrix: Vec<Vec<i32>>) -> Vec<i32> {
             }
         }
         left += 1;
-        if right > 0 {
-            right -= 1;
-        }
+        right = right.saturating_sub(1);
         top += 1;
-        if bottom > 0 {
-            bottom -= 1;
-        }
+        bottom = bottom.saturating_sub(1);
     }
     res
 }

@@ -9,7 +9,6 @@ struct Node {
 }
 
 pub struct LRUCache {
-    capacity: usize,
     nodes: Vec<Node>,
     map: HashMap<i32, usize>,
     free_nodes: Vec<usize>,
@@ -32,7 +31,6 @@ impl LRUCache {
         nodes[1].prev = 0;
 
         Self {
-            capacity: cap,
             nodes,
             map: HashMap::with_capacity(cap),
             free_nodes: (2..cap + 2).collect(),

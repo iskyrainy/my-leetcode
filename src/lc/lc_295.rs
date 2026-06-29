@@ -3,14 +3,14 @@ use std::cmp::Reverse;
 use crate::lc::Heap;
 
 #[derive(Debug)]
-struct MedianFinder {
-    min: Heap<i32>,
-    max: Heap<Reverse<i32>>,
-    size: usize,
+pub struct MedianFinder {
+    pub min: Heap<i32>,
+    pub max: Heap<Reverse<i32>>,
+    pub size: usize,
 }
 
 impl MedianFinder {
-    fn new() -> Self {
+    pub fn new() -> Self {
         MedianFinder {
             min: Heap::new(25001),
             max: Heap::new(25001),
@@ -18,7 +18,7 @@ impl MedianFinder {
         }
     }
 
-    fn add_num(&mut self, num: i32) {
+    pub fn add_num(&mut self, num: i32) {
         if self.min.is_empty() || num <= *self.min.peek().unwrap() {
             self.min.push(num);
             if self.max.len() + 1 < self.min.len() {
@@ -32,12 +32,18 @@ impl MedianFinder {
         }
     }
 
-    fn find_median(&mut self) -> f64 {
+    pub fn find_median(&mut self) -> f64 {
         let min_top = *self.min.peek().unwrap();
         if self.min.len() > self.max.len() {
             return min_top as _;
         }
         (min_top + self.max.peek().unwrap().0) as f64 / 2.0
+    }
+}
+
+impl Default for MedianFinder {
+    fn default() -> Self {
+        Self::new()
     }
 }
 

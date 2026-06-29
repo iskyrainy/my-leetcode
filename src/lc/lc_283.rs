@@ -1,4 +1,4 @@
-pub fn move_zeroes(nums: &mut Vec<i32>) {
+pub fn move_zeroes(nums: &mut [i32]) {
     let (mut left, mut right) = (0_usize, 0_usize);
     while right < nums.len() {
         let num = nums[right];
