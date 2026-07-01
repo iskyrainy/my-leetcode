@@ -1,4 +1,4 @@
-use std::{cell::RefCell, rc::Rc};
+use std::{cell::RefCell, collections::VecDeque, rc::Rc};
 
 pub mod lc;
 pub mod lc_1k;
@@ -20,6 +20,90 @@ impl TreeNode {
             right: None,
         }
     }
+}
+
+pub fn to_tree(vector: Vec<i32>) -> Option<Rc<RefCell<TreeNode>>> {
+    if vector.is_empty() {
+        return None;
+    }
+
+    let root = Rc::new(RefCell::new(TreeNode::new(vector[0])));
+    let mut queue = VecDeque::new();
+    queue.push_back(root.clone());
+
+    let mut i = 1;
+    while i < vector.len() {
+        if let Some(current) = queue.pop_front() {
+            if i < vector.len() {
+                if vector[i] != -1 {
+                    let left = Rc::new(RefCell::new(TreeNode::new(vector[i])));
+                    current.borrow_mut().left = Some(left.clone());
+                    queue.push_back(left);
+                }
+                i += 1;
+            }
+            if i < vector.len() {
+                if vector[i] != -1 {
+                    let right = Rc::new(RefCell::new(TreeNode::new(vector[i])));
+                    current.borrow_mut().right = Some(right.clone());
+                    queue.push_back(right);
+                }
+                i += 1;
+            }
+        }
+    }
+    Some(root)
+}
+
+pub fn flat_tree(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
+    let mut result = Vec::new();
+    if let Some(node) = root {
+        let borrowed = node.borrow();
+        if let Some(left) = &borrowed.left {
+            result.extend(flat_tree(Some(left.clone())));
+        }
+        result.push(borrowed.val);
+        if let Some(right) = &borrowed.right {
+            result.extend(flat_tree(Some(right.clone())));
+        }
+    }
+    result
+}
+
+pub fn flat_tree_preorder(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
+    let mut result = Vec::new();
+    if let Some(node) = root {
+        let borrowed = node.borrow();
+        result.push(borrowed.val);
+        if let Some(left) = &borrowed.left {
+            result.extend(flat_tree_preorder(Some(left.clone())));
+        }
+        if let Some(right) = &borrowed.right {
+            result.extend(flat_tree_preorder(Some(right.clone())));
+        }
+    }
+    result
+}
+
+pub fn flat_tree_level_order(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
+    let mut result = Vec::new();
+    if root.is_none() {
+        return result;
+    }
+    let mut queue = VecDeque::new();
+    queue.push_back(root.unwrap());
+    while let Some(node) = queue.pop_front() {
+        let borrowed = node.borrow();
+        result.push(borrowed.val);
+
+        if let Some(left) = &borrowed.left {
+            queue.push_back(left.clone());
+        }
+        if let Some(right) = &borrowed.right {
+            queue.push_back(right.clone());
+        }
+    }
+    result
 }
 
 #[derive(PartialEq, Eq, Clone, Debug)]
