@@ -3,6 +3,7 @@ pub mod lc_2130;
 pub mod lc_2336;
 pub mod lc_2352;
 pub mod lc_2390;
+pub mod lc_2542;
 
 pub use crate::Heap;
 pub use crate::ListNode;
