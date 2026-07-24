@@ -3,6 +3,8 @@ use std::{cell::RefCell, collections::VecDeque, rc::Rc};
 pub mod lc;
 pub mod lc_1k;
 pub mod lc_2k;
+pub mod lc_3k;
+pub mod problems;
 
 #[derive(Debug, PartialEq, Eq)]
 pub struct TreeNode {
