@@ -1,4 +1,5 @@
 pub mod lc_3514;
+pub mod lc_3536;
 
 pub use crate::Heap;
 pub use crate::ListNode;
